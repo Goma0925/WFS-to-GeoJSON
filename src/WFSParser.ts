@@ -1,6 +1,6 @@
-import { Feature, Geometry, Position } from "geojson";
-import {xml2json, xml2js} from "xml-js"
-import { FeatureMemberEntity, WFSFeatureCollection } from "./WFSFeatureCollection";
+import { Geometry, Position } from "geojson";
+import { xml2js } from "xml-js";
+import { WFSFeatureCollection } from "./WFSFeatureCollection";
 export type GeoJSONFeatureCollection = GeoJSON.FeatureCollection<GeoJSON.Geometry>;
 
 /**
