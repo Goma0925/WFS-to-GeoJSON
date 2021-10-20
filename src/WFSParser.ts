@@ -41,11 +41,10 @@ export class WFSParser{
         const featureAttrs_WFS = feature_WFS[Object.keys(feature_WFS)[0]];
 
         // Parse the geometry attribute.
-        // https://datatracker.ietf.org/doc/html/rfc7946#section-1.4
+        //    Get the geometry type from WFS.
         //    geometry.type attribute in GeoJSON must be one of 
         //    "Point", "MultiPoint", "LineString","MultiLineString", "Polygon", "MultiPolygon", and "GeometryCollection"
-        //    This script assumes that the values are separated by commas and do not have the outer most brackets "[ ]"
-        //    To accomodate the different format, it also creates a string attribute for raw value.
+        //    https://datatracker.ietf.org/doc/html/rfc7946#section-1.4
         const geometryTypeName_WFS = Object.keys(featureAttrs_WFS["Shape"])[0]; //eg) Point
         
         const geometry_WFS = featureAttrs_WFS["Shape"][geometryTypeName_WFS];
@@ -57,7 +56,7 @@ export class WFSParser{
         }
         if (geometry_WFS){
           // This JSON parsing assumes that the original value in the XML tag is a comma separated value.
-          // It could fail or add extra layer of array if the value is Polygon array etc
+          // It could fail or add an extra array.
           // e.g) <coordinates>6.6103,46.9838</coordinates> ---> Works!
           //      <coordinates>[6.6103,46.9838]</coordinates> ---> Adds unnecessary outer array.
           geometry_Geo.coordinates = geometry_WFS.coordinates? JSON.parse(`[${geometry_WFS.coordinates._text}]`):null;
