@@ -1,6 +1,6 @@
 import { Geometry, Position } from "geojson";
 import { xml2js } from "xml-js";
-import { WFSFeatureCollection } from "./WFSFeatureCollection";
+import { WFSFeatureCollection_UNSTABLE } from "./WFSFeatureCollection";
 export type GeoJSONFeatureCollection = GeoJSON.FeatureCollection<GeoJSON.Geometry>;
 
 /**
@@ -24,9 +24,9 @@ export class WFSParser{
       let featureCollection = xml2js(wfsXML, parseOptions);
       return featureCollection;
     }
-    const featureCollection = <WFSFeatureCollection>convertWFSFeatureCollection2JSON();
+    const featureCollection = <WFSFeatureCollection_UNSTABLE>convertWFSFeatureCollection2JSON();
 
-    function convertFeatureCollection2GeoJSON(featureCollection: WFSFeatureCollection){
+    function convertFeatureCollection2GeoJSON(featureCollection: WFSFeatureCollection_UNSTABLE){
       if (!featureCollection["FeatureCollection"]){
         throw `This WFS string does not contain "wfs:FeatureCollection" attribute as the outer most container. You're possibly trying to convert other WFS format that is not FeatureCollection.`
       }
@@ -87,6 +87,6 @@ export class WFSParser{
       return {...geoJSON, features: features_GEO};
     }
     const geoJSONFeatureCollection = convertFeatureCollection2GeoJSON(featureCollection);    
-    return geoJSONFeatureCollection;
+    return <GeoJSONFeatureCollection>geoJSONFeatureCollection;
   }
 }
